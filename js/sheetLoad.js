@@ -1,3 +1,4 @@
+console.log("loaded loadSheet");
 var oReq = new XMLHttpRequest();
 oReq.addEventListener("load", processSheet);
 
