@@ -16,7 +16,6 @@ var measureWidths;
 
 var debug = true;
 
-
 var playButton = document.getElementById("playButton");
 var canvas = document.getElementById("osmdCanvas");
 var playing = false;
@@ -25,6 +24,7 @@ playButton.addEventListener("click", playPause, false);
 var startButton = document.getElementById("startButton");
 startButton.addEventListener("click", toStart, false);
 
+var tempo = 0;
 var tempoSlider = document.getElementById("tempo");
 tempoSlider.addEventListener("change", setTempo, false);
 tempoSlider.value = 92;
@@ -32,9 +32,19 @@ setTempo();
 
 var scrolled = 0;
 
+var horizontalScroll = document.getElementById("horizontal");
+horizontalScroll.addEventListener("change", setScroll, false);
+var scrollHor = false;
+setScroll();
+
 function processSheet() {
     var xmlDoc = toXML(this.responseText);
-    setCanvasWidth(xmlDoc);
+    if (scrollHor) {
+        initDocument(xmlDoc);
+    } else {
+        initDocument(xmlDoc);
+        container.style.width = window.innerWidth;
+    }
 
     openSheetMusicDisplay
     .load(this.responseText)
@@ -50,13 +60,10 @@ function handleSheetSelect() {
     oReq.send();
 }
 
-function setCanvasWidth(doc) {
+function initDocument(doc) {
     var measures = doc.getElementsByTagName("measure");
     calculateMeasureDuration(measures);
-    var width = 0;
-    for (i=0; i < measures.length; i++) {
-        width += parseFloat(measures[i].getAttribute("width"));
-    }
+    var width = measureBounds[measureBounds.length - 1];
     container.style.width = width.toString() + "px";
 }
 
@@ -73,7 +80,13 @@ function calculateMeasureDuration(measures) {
 
     for (i = 0; i < measures.length; i++) {
         measureWidths.push(parseFloat(measures[i].getAttribute("width")));
-        width += parseFloat(measures[i].getAttribute("width"));
+
+
+        if (measures[i].getElementsByTagName("staff-distance").length > 0 && i > 0) {
+            measureWidths[i] -= parseFloat(measures[i].getElementsByTagName("staff-distance")[0].childNodes[0].nodeValue);
+        }
+
+        width += measureWidths[i];
         measureBounds.push(width);
 
         if (measures[i].getElementsByTagName("beats").length > 0) {
@@ -95,11 +108,13 @@ function calculateMeasureDuration(measures) {
 
 function playPause() {
     playing = !playing;
-    if (playing) {
-        playButton.innerHTML = 'Pause <i class="material-icons left">pause_circle_filled</i>';
+    playButton.innerHTML = 'Pause <i class="material-icons left">pause_circle_filled</i>';
+    if (playing && scrollHor) {
         scrolled = window.scrollX;
         setTimeout("pageScroll()", 3000);
-        //setTimeout("scrollSmooth()",3000);
+        //setTimeout("scrollSmooth()",500);
+    } else if (playing) {
+        scrollVertical();
     } else {
         playButton.innerHTML = 'Play <i class="material-icons left">play_circle_filled</i>';
     }
@@ -120,7 +135,11 @@ function pageScroll() {
             //scrolled += pxps*0.025;
             //console.log(index);
             //console.log(measureWidths[0] + measureWidths[1]);
-            scrolled += (measureWidths[index] + measureWidths[index + 1] + measureWidths[index + 2]) / (measureDurs[index] * tempo * 3) * 0.025;
+            
+            scrolled += measureWidths[index] / (measureDurs[index] * tempo) * 0.015;
+            // TODO manual scrollen tijdens scroll door te checken of verschil met window.scrollX groot is.
+            // Of automatisch stoppen wanneer user begint te scrollen.
+            //scrolled += (measureWidths[index] + measureWidths[index + 1] + measureWidths[index + 2]) / (measureDurs[index] * tempo * 3) * 0.01;
             //window.scrollX + pxps * 0.025
             window.scroll(Math.round(scrolled),0);
             if (debug) {
@@ -128,7 +147,7 @@ function pageScroll() {
                 //console.log("scrollX: " + window.scrollX);
                 //console.log("scrolled would be: " + Math.floor(scrolled));
             }
-            setTimeout('pageScroll()', 25);
+            setTimeout('pageScroll()', 15);
         }
     }
 }
@@ -141,17 +160,18 @@ function scrollSmooth() {
 
             //
             var index = getMeasureIndex();
-            var dur = measureDurs[index] * tempo;
+            //var dur = measureDurs[index] * tempo;
             var bound = measureBounds[index];
 
-            $('body,html').animate({scrollLeft: measureBounds[index]}, dur*200);
-            if (debug) {
-                console.log(dur*1000 + " milliseconds");
+            $('body,html').animate({scrollLeft: bound}, 200);
+            //$('body,html').animate({scrollLeft: 153}, dur*200);
+            /*if (debug) {
+                console.log(dur*000 + " milliseconds");
                 console.log("index: " + index);
                 console.log(window.scrollX);
 
-            }
-            setTimeout('scrollSmooth()', dur*1000);
+            }*/
+            setTimeout('scrollSmooth()', 2000);
             /*var index = getMeasureIndex();
             var dur = measureDurs[index] * tempo;
             $('body,html').animate({scrollLeft: canvas.clientWidth - window.innerWidth}, dur*measureBounds.length*1000);*/
@@ -180,3 +200,44 @@ function getMeasureIndex() {
     }
     return index;
 }
+
+function setScroll() {
+    //console.log(horizontalScroll.checked);
+    scrollHor = horizontalScroll.checked;
+}
+
+function scrollVertical() {
+    if (playing) {
+        if (canvas.clientHeight - window.innerHeight <= window.scrollY){
+            playPause();
+        } else {
+            var nb = calcNbMeasuresInStaff();
+            var timeout = nb * measureDurs[0] * tempo;
+
+            setTimeout("scrollDown()", timeout*1000);
+        }
+    }
+}
+
+var staffHeight = 195;
+var vertscrolled = 0
+function scrollDown() {
+    vertscrolled += staffHeight;
+    $('body,html').animate({scrollTop: vertscrolled}, 1000);
+    scrollVertical();
+}
+
+function calcNbMeasuresInStaff() {
+    var w = window.innerWidth;
+    var indices = 1;
+    for (i = 0; i < measureBounds.length; i++) {
+        if (measureBounds[i] > w*indices) {
+            indices++;
+        }
+    }
+
+    return measureDurs.length / indices;
+}
+    // measureBounds tellen tot ge een index hebt
+    // voor elke tot ge aan de laatste index zitten en dan delen door het aantal gevonden indices... ofzoiets
+    // dan hebt ge een gemiddeld getal aantal maten en dan kunnen we elke staff zolang laten duren.

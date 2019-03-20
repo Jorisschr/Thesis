@@ -1,13 +1,15 @@
 Prototype TODO: (difficulty priority)
 X	make navbar sticky (so buttons stay in same place and does not appear to short) (? 8)
-X...	implement smoother scrolling (? 7)
+X...	implement smoother scrolling (? 7) -> keep bothering me.
 X	create button to go to start of piece (1 6)
 X	adapt width according to device/length of piece (? 8)
-	create button to set tempo (3 7)
-	pad piece down (2 2)
-
+X	create button to set tempo (3 7)
+X	pad piece down (2 2)
 	vertical scrolling (1 10)
 	add more pieces (0 3)
+	slider should be more clear (add that it is to change the tempo)
+	make it better for mobile devices
+
 
 Final version TODO:
 	Playback button (just of the piece)
