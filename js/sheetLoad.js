@@ -42,6 +42,12 @@ var scrollButton = document.getElementById("scrollButton");
 var scrollMode = "down";
 scrollButton.addEventListener("click", setScrollMode, false);
 
+
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.sidenav');
+    var instances = M.Sidenav.init(elems, options);
+  });
+
 function processSheet() {
     loadedSheet = true;
     var xmlDoc = toXML(this.responseText);

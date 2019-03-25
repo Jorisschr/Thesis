@@ -27,7 +27,8 @@
   <div class="navbar-fixed">
     <nav class="nav-wrapper grey darken-3">
       <!--div class="left container"-->
-        <ul class="hide-on-mid-and-down">
+      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        <ul class="hide-on-med-and-down">
           <li>
             <a class="input-field">
               <select id="selectedSheet">
@@ -80,13 +81,40 @@
             <p class="range-field">
               <input type="range" id="tempo" min="40" max="208" />
             </p></li>
-          <li>
+          <!-- <li>
             <a class="waves-effect waves-light btn" id="downButton"> down</a>
-          </li>
+          </li> -->
         </ul>
       <!--/div-->
     </nav>
   </div>
+
+  <ul class="sidenav" id="mobile-demo">
+    <li>
+      <a class="input-field">
+        <select id="selectedSheet">
+          <option value="" disabled selected>Select a musical piece</option>
+          <option value="../sheets/J_S_Bach_Menuet_in_G_Moll.musicxml">J.S. Bach Menuet in G Moll</option>
+          <option value="../sheets/Saltarello_sample.musicxml">Saltarello Sample</option>
+          <option value="../sheets/Prelude_C_Major_-_Bach.musicxml">Bach Prelude C Major</option>
+          <option value="../sheets/Gabriel_Faur_-_Op_78_-_Sicilienne_Piano_version.musicxml">Gabriel Faur - Op 78 - Sicilienne</option>
+        </select>
+      </a>
+    </li>
+    <li><a class="waves-effect waves-light btn-floating" id="backButton"><i class="material-icons">arrow_back</i></a></li>
+    <li><a class="waves-effect waves-light btn-floating" id="playButton"><i class="material-icons">play_arrow</i></a></li>
+    <li>
+      <a class="waves-effect waves-light btn" id="scrollButton"> Scroll <i class="material-icons right">arrow_downward</i></a>
+    </li>
+    <li>
+      <p class="range-field">
+        <input type="range" id="tempo" min="40" max="208" />
+      </p></li>
+    <!-- <li>
+      <a class="waves-effect waves-light btn" id="downButton"> down</a>
+    </li> -->
+  </ul>
+
   <!-- Canvas on which the sheet music is rendered -->
   <div class="sheet-div" id="osmdCanvas"></div>
   <!--a href="https://icons8.com/icon/56029/piano">Piano icon by Icons8</a-->
@@ -104,6 +132,7 @@
       //$('.modal').modal();
       //$('.dropdown-trigger').dropdown();
       $('select').formSelect();
+      $('.sidenav').sidenav();
     });
   </script>
   <script src="js/opensheetmusicdisplay.min.js"></script>
