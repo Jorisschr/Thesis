@@ -26,12 +26,12 @@
   <!-- Navbar -->
   <div class="navbar-fixed">
     <nav class="nav-wrapper grey darken-3">
-      <div class="left container">
+      <!--div class="left container"-->
         <ul class="hide-on-mid-and-down">
           <li>
             <a class="input-field">
               <select id="selectedSheet">
-                <option value="" disabled selected>Select a piece</option>
+                <option value="" disabled selected>Select a musical piece</option>
                 <option value="../sheets/J_S_Bach_Menuet_in_G_Moll.musicxml">J.S. Bach Menuet in G Moll</option>
                 <option value="../sheets/Saltarello_sample.musicxml">Saltarello Sample</option>
                 <option value="../sheets/Prelude_C_Major_-_Bach.musicxml">Bach Prelude C Major</option>
@@ -39,25 +39,31 @@
               </select>
             </a>
           </li>
-          <li>
+          <!--li>
             <a id="playButton" class="waves-effect waves-light btn grey lighten-4 black-text">
               Play <i class="material-icons left">play_circle_filled</i>
             </a>
           </li>
           <li>
             <a id="startButton" class="waves-effect waves-light btn grey lighten-4 black-text">
-              To Start <i class="material-icons left">restore</i>
+              Back <i class="material-icons left">arrow_back</i>
             </a>
-          </li>
-          <li>
-              <form action="#">
-                  <p class="range-field">
-                    <input type="range" id="tempo" min="40" max="208" />
-                  </p>
-                </form>
-          </li>
-          <li>
-              <!-- Switch -->
+          </li-->
+          <li><a class="waves-effect waves-light btn-floating" id="backButton"><i class="material-icons">arrow_back</i></a></li>
+          <!-- <li> -->
+
+          <!-- </li> -->
+          <li><a class="waves-effect waves-light btn-floating" id="playButton"><i class="material-icons">play_arrow</i></a></li>
+          <!--li>
+            <div class="input-field">
+              <i class="material-icons prefix">music_note</i>
+              <input id="icon_telephone" type="number" min="40" max="208">
+              <label for="icon_telephone">Tempo</label>
+            </div>
+            
+            <input type="number" id="tempo" min="40" max="208"></li>
+          -->
+          <!-- <li>
             <div class="switch">
               <label>
                 Down
@@ -66,12 +72,21 @@
                 Right
               </label>
             </div>
+          </li> -->
+          <li>
+            <a class="waves-effect waves-light btn" id="scrollButton"> Scroll <i class="material-icons right">arrow_downward</i></a>
+          </li>
+          <li>
+            <p class="range-field">
+              <input type="range" id="tempo" min="40" max="208" />
+            </p></li>
+          <li>
+            <a class="waves-effect waves-light btn" id="downButton"> down</a>
           </li>
         </ul>
-      </div>
+      <!--/div-->
     </nav>
   </div>
-
   <!-- Canvas on which the sheet music is rendered -->
   <div class="sheet-div" id="osmdCanvas"></div>
   <!--a href="https://icons8.com/icon/56029/piano">Piano icon by Icons8</a-->
