@@ -1,0 +1,81 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta 
+     name='viewport' 
+     content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' 
+/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <link rel="shortcut icon" type="image/svg" href="https://img.icons8.com/cotton/16/56029/piano.png">
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <!-- Custom made CSS-->
+  <link rel="stylesheet" href="../css/style.css">
+           
+  <title>Prototype</title>
+</head>
+<body>
+  <!-- Dropdown Structure -->
+  <ul id="sheetSelection" class="dropdown-content">
+    <li><a href="#!">J.S. Bach Menuet in G Moll</a></li>
+    <li><a href="#!">Saltarello Sample</a></li>
+    <li><a href="#!">Mozart Sonate</a></li>
+  </ul>
+
+
+  <!-- Navbar -->
+  <div class="navbar-fixed">
+    <nav class="nav-wrapper grey darken-3">
+      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        <ul class="hide-on-med-and-down">
+          <li>
+            <a class="input-field">
+              <select id="selectedSheet">
+                <option value="" disabled selected>Select a musical piece</option>
+                <option value="../sheets/J_S_Bach_Menuet_in_G_Moll.musicxml">J.S. Bach Menuet in G Moll</option>
+                <option value="../sheets/Saltarello_sample.musicxml">Saltarello Sample</option>
+                <option value="../sheets/Prelude_C_Major_-_Bach.musicxml">Bach Prelude C Major</option>
+                <option value="../sheets/Gabriel_Faur_-_Op_78_-_Sicilienne_Piano_version.musicxml">Gabriel Faur - Op 78 - Sicilienne</option>
+                <option value="../sheets/ramin_djawadi_light_of_the_seven.musicxml">Ramin Djawadi - Light of the seven</option>
+                <option value="../sheets/Dietro_Casa_-_Ludovico_Einaudi.musicxml">L. Einaudi - Dietro casa</option>
+              </select>
+            </a>
+          </li>
+
+          <li><a class="waves-effect waves-light btn-floating" id="backButton"><i class="material-icons">arrow_back</i></a></li>
+          <li><a class="waves-effect waves-light btn-floating" id="playButton"><i class="material-icons">play_arrow</i></a></li>
+          <li>
+            <p class="range-field">
+              <input type="range" id="tempo" min="40" max="208" />
+            </p>
+          </li>
+        </ul>
+    </nav>
+  </div>
+
+  <!-- Canvas on which the sheet music is rendered -->
+  <div class="sheet-div" id="osmdCanvas"></div>
+
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+  <!-- Compiled and minified JavaScript -->
+  <!--https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js-->
+  <script src="js/materialize.min.js"></script>
+  <!-- makes select button work... -->
+  <script>
+    $(document).ready(function() {
+      $('select').formSelect();
+      $('.sidenav').sidenav();
+    });
+  </script>
+  <script src="js/opensheetmusicdisplay.min.js"></script>
+  <script src="js/horizontalScroll.js"></script>
+  <!--script src="js/scroller.js"></script-->
+</body>
+</html>

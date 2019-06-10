@@ -3,32 +3,38 @@ var oReq = new XMLHttpRequest();
 oReq.addEventListener("load", processSheet);
 
 var container = document.getElementById("osmdCanvas");
-//, drawingParameters: "compact"
 var openSheetMusicDisplay = new opensheetmusicdisplay.OpenSheetMusicDisplay(container, { autoResize: true, drawingParameters: "compact", drawPartNames: false, disableCursor: false });
 var loadedSheet = false;
 
 document.getElementById("selectedSheet").addEventListener("change", handleSheetSelect, false);
+document.getElementById("selectedSheetM").addEventListener("change", handleSheetSelect, false);
 
 var measureBounds;
 var measureDurs;
 var measureWidths;
 
-// TODO: betere default zetten...
-
 var debug = true;
 
 var playButton = document.getElementById("playButton");
+var playButtonM = document.getElementById("playButtonM");
 var canvas = document.getElementById("osmdCanvas");
 var playing = false;
-playButton.addEventListener("click", playPause, false);
+playButton.addEventListener("click", scrollToMeasureLines, false);
+playButtonM.addEventListener("click", playPause, false);
 
 var startButton = document.getElementById("backButton");
+var startButtonM = document.getElementById("backButtonM");
 startButton.addEventListener("click", toStart, false);
+startButtonM.addEventListener("click", toStart, false);
 
 var tempo = 0;
 var tempoSlider = document.getElementById("tempo");
-tempoSlider.addEventListener("change", setTempo, false);
+var tempoSliderM = document.getElementById("tempoM");
 tempoSlider.value = 92;
+tempoSliderM.value = 92;
+tempoSlider.addEventListener("change", setTempo, false);
+tempoSliderM.addEventListener("change", setTempo, false);
+
 setTempo();
 
 var scrolled = 0;
@@ -39,14 +45,16 @@ var scrollHor = false;
 setScroll();*/
 
 var scrollButton = document.getElementById("scrollButton");
+var scrollButtonM = document.getElementById("scrollButtonM");
 var scrollMode = "down";
 scrollButton.addEventListener("click", setScrollMode, false);
+scrollButtonM.addEventListener("click", setScrollMode, false);
 
 
-document.addEventListener('DOMContentLoaded', function() {
+/*document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('.sidenav');
     var instances = M.Sidenav.init(elems, options);
-  });
+  });*/
 
 function processSheet() {
     loadedSheet = true;
@@ -71,6 +79,11 @@ function processSheet() {
     //openSheetMusicDisplay.cursor.show();
     //openSheetMusicDisplay.cursor.next();
     });
+    for (i = 0; i < 1; i++) {
+        //console.log(openSheetMusicDisplay.GraphicSheet.MeasureList[i][0].PositionAndShape.BorderRight);
+        console.log(openSheetMusicDisplay.GraphicSheet.MeasureList);
+    }
+
 }
 
 function handleSheetSelect() {
@@ -95,7 +108,7 @@ function reloadSelectedSheet() {
 
 function initDocument(doc) {
     var measures = doc.getElementsByTagName("measure");
-    calculateMeasureDuration(measures);
+    extractMeasureData(measures);
     /*var width = measureBounds[measureBounds.length - 1];
     if (scrollHor()) {
         container.style.width = width.toString() + "px";
@@ -110,6 +123,7 @@ function setCanvasWidth() {
         container.style.width = measureBounds[measureBounds.length - 1].toString() + "px";
     } else {
         container.style.width = window.innerWidth - 17;
+        console.log("height" + container.style.height);
     }
 }
 
@@ -118,7 +132,7 @@ function toXML(responseText) {
     return parser.parseFromString(responseText, "application/xml");
 }
 
-function calculateMeasureDuration(measures) {
+function extractMeasureData(measures) {
     measureBounds = [];
     measureDurs = [];
     measureWidths = [];
@@ -155,11 +169,26 @@ function calculateMeasureDuration(measures) {
 function playPause() {
     playing = !playing;
     playButton.innerHTML = '<i class="material-icons">pause</i>';
-
+    console.log("playbutton active")
     if (playing && scrollHor()) {
         scrolled = window.scrollX;
         setTimeout("pageScroll()", 3000);
         //setTimeout("scrollSmooth()",500);
+    } else if (playing) {
+        scrollVertical();
+    } else {
+        playButton.innerHTML = '<i class="material-icons">play_arrow</i>';
+    }
+}
+
+function scrollToMeasureLines() {
+    playing = !playing;
+    playButton.innerHTML = '<i class="material-icons">pause</i>';
+    console.log("playbutton active")
+    if (playing && scrollHor()) {
+        scrolled = window.scrollX;
+        //setTimeout("pageScroll()", 3000);
+        setTimeout(scrollSmooth.bind(null, 0), 500);
     } else if (playing) {
         scrollVertical();
     } else {
@@ -199,18 +228,22 @@ function pageScroll() {
     }
 }
 
-function scrollSmooth() {
+function scrollSmooth(index) {
     if (playing) {
         if (canvas.clientWidth - window.innerWidth <= window.scrollX){
             playPause();
         } else {
 
             //
-            var index = getMeasureIndex();
-            //var dur = measureDurs[index] * tempo;
+            //var index = getMeasureIndex();
+            console.log("current measure index: " + index);
+            var dur = measureDurs[index] * tempo;
+            console.log("current measure durat: " + dur);
             var bound = measureBounds[index];
+            var b = openSheetMusicDisplay.GraphicSheet.MeasureList[index][0].stave.end_x;
 
-            $('body,html').animate({scrollLeft: bound}, 200);
+
+            $('body,html').animate({scrollLeft: b}, 1956);
             //$('body,html').animate({scrollLeft: 153}, dur*200);
             /*if (debug) {
                 console.log(dur*000 + " milliseconds");
@@ -218,7 +251,7 @@ function scrollSmooth() {
                 console.log(window.scrollX);
 
             }*/
-            setTimeout('scrollSmooth()', 2000);
+            setTimeout(scrollSmooth.bind(null, index+1), 1956);
             /*var index = getMeasureIndex();
             var dur = measureDurs[index] * tempo;
             $('body,html').animate({scrollLeft: canvas.clientWidth - window.innerWidth}, dur*measureBounds.length*1000);*/
@@ -235,8 +268,19 @@ function toStart() {
     });
 }
 
-function setTempo() {
-    tempo = 4 * 60 / tempoSlider.value;
+function setTempo(normal) {
+    if(normal) {
+        console.log("normal");
+        tempo = 4 * 60 / tempoSlider.value;
+        tempoSliderM.value = tempoSlider.value;
+        console.log(tempoSliderM.value);
+    } else {
+        console.log("mobile");
+        tempo = 4 * 60 / tempoSliderM.value;
+        tempoSlider.value = tempoSliderM.value;
+        console.log(tempoSlider.value);
+    }
+
 }
 
 function getMeasureIndex() {
@@ -298,9 +342,9 @@ function setScrollMode() {
     reloadSelectedSheet();
 }
 
-var downb = document.getElementById("downButton");
+/*var downb = document.getElementById("downButton");
 downb.addEventListener("click", scrolld, false);
 
 function scrolld() {
     window.scroll(window.scrollX + 197, 0);
-}
+}*/
