@@ -64,7 +64,8 @@ function playPause() {
     playing = !playing;
     if (playing) {
         playButton.innerHTML = '<i class="material-icons">pause</i>';
-        scrollVertical();   
+        setTimeout("scrollVertical()", measureDurs[0] * 1000 * tempo);    
+        //scrollVertical();   
     } else {
         playButton.innerHTML = '<i class="material-icons">play_arrow</i>';
     }

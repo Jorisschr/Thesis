@@ -75,7 +75,7 @@ function playPause() {
         playButton.innerHTML = '<i class="material-icons">pause</i>';
         setMeasureBounds();
         calcScrollParams();
-        setTimeout("scrollSmooth()", 3000);    
+        setTimeout("scrollSmooth()", measureDurs[curIndex] * 1000 * tempo * 2);    
     } else {
         playButton.innerHTML = '<i class="material-icons">play_arrow</i>';
     }
