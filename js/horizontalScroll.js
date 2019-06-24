@@ -113,7 +113,7 @@ function pageScroll() {
 
 function scrollSmooth() {
     if (playing) {
-        if (sheetCanvas.clientWidth - window.visualViewport.width <= window.scrollX) {
+        if (sheetCanvas.clientWidth - window.innerWidth <= window.scrollX) {
             playPause();
         } else {
             curIndex += 1;
