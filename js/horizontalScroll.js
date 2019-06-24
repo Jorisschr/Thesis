@@ -49,7 +49,7 @@ function extractMeasureData(measures) {
 
 function setCanvasWidth() {
     sheetCanvas.style.width = sheetWidth;
-    sheetCanvas.style.height = window.visualViewport.height - 200;
+    //sheetCanvas.style.height = window.visualViewport.height - 200;
 }
 
 function handleSheetSelect() {
