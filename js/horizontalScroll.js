@@ -13,8 +13,14 @@ function processSheet() {
 
     openSheetMusicDisplay
     .load(this.responseText)
-    .then(function () { openSheetMusicDisplay.render();
+    .then(function () { 
+        try {
+            openSheetMusicDisplay.render();
                         sheetLoaded = true;
+        }
+        catch(e) {
+            console.log("error");
+        }
                     });
 }
 

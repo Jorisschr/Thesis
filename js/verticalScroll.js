@@ -15,7 +15,7 @@ function processSheet() {
     .then(function () { openSheetMusicDisplay.render();
                         sheetLoaded = true;
                         setStaffBounds();
-                        sheetCanvas.style.height = staffBounds[staffBounds.length - 1] + 300;
+                        //sheetCanvas.style.height = staffBounds[staffBounds.length - 1] + 30000;
                         });
 }
 
