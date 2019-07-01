@@ -94,7 +94,6 @@
       <direction placement="above">
         <direction-type>
           <metronome parentheses="no" default-x="-39.28" relative-y="20.00">
-            <beat-unit>quarter</beat-unit>
             <per-minute>100</per-minute>
             </metronome>
           </direction-type>

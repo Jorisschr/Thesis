@@ -92,6 +92,11 @@
           </clef>
         </attributes>
       <direction placement="above">
+        <direction-type>
+          <metronome parentheses="no" default-x="34.94" relative-y="20.00">
+            <per-minute>100</per-minute>
+            </metronome>
+          </direction-type>
         <staff>1</staff>
         <sound tempo="100"/>
         </direction>
