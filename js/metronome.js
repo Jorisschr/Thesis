@@ -69,7 +69,7 @@ function scheduleNote( beatNumber, time ) {
     osc.start( time );
     osc.stop( time + noteLength );*/
 
-    if (beatNumber % 16 === 0)
+    if (beatNumber % 4 === 0)
         playSample(audioContext, firstSample, time);
     else
         playSample(audioContext, otherSample, time);
