@@ -2,6 +2,7 @@ var oReq = new XMLHttpRequest();
 oReq.addEventListener("load", processSheet);
 document.getElementById("selectedSheet").addEventListener("change", handleSheetSelect, false);
 
+
 var sheetCanvas = document.getElementById("osmdCanvas");
 var openSheetMusicDisplay = new opensheetmusicdisplay.OpenSheetMusicDisplay(sheetCanvas, { autoResize: true, drawingParameters: "compact", drawPartNames: false, disableCursor: false });
 var sheetLoaded = false;
@@ -62,11 +63,13 @@ setTempo();
 
 function playPause() {
     playing = !playing;
+
     if (playing) {
         playButton.innerHTML = '<i class="material-icons">pause</i>';
-        setTimeout("scrollVertical()", measureDurs[0] * 1000 * tempo);    
-        //scrollVertical();   
+        setTimeout("scrollVertical()", measureDurs[0] * 1000 * tempo);
+  
     } else {
+        play();
         playButton.innerHTML = '<i class="material-icons">play_arrow</i>';
     }
 }
@@ -94,6 +97,7 @@ function setStaffBounds() {
 }
 
 function scrollVertical() {
+    console.log("scrolling");
     if (playing) {
         if (sheetCanvas.clientHeight - window.innerHeight <= window.scrollY){
             playPause();
