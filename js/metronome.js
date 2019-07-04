@@ -133,8 +133,13 @@ function init(){
     // Http://cwilso.github.io/AudioContext-MonkeyPatch/AudioContextMonkeyPatch.js
     // TO WORK ON CURRENT CHROME!!  But this means our code can be properly
     // spec-compliant, and work on Chrome, Safari and Firefox.
-
-    audioContext = new AudioContext();
+    if ('webkitAudioContext' in window) {
+        console.log('ok');
+        audioContext = new webkitAudioContext();
+    } else {
+        audioContext = new AudioContext();
+    }
+    //audioContext = new AudioContext();
     setupSample("/js/metronomeup.wav").then(sample => firstSample = sample);
     setupSample("/js/metronome.wav").then(sample => otherSample = sample);
 
