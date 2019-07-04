@@ -22,6 +22,8 @@ var timerWorker = null;     // The Web Worker used to fire timer messages
 var firstSample = null;
 var otherSample = null;
 
+var debug = document.getElementById("debug");
+
 // First, let's shim the requestAnimationFrame API, with a setTimeout fallback
 /*window.requestAnimFrame = (function(){
     return  window.requestAnimationFrame ||
@@ -113,6 +115,7 @@ function play() {
 }
 
 async function getFile(audioContext, filepath) {
+    debug.innerHTML = "get file"
     const response = await fetch(filepath);
     const arrayBuffer = await response.arrayBuffer();
     const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
@@ -120,6 +123,7 @@ async function getFile(audioContext, filepath) {
   }
 
 async function setupSample(filePath) {
+    debug.innerHTML = "setup sample"
     const sample = await getFile(audioContext, filePath);
     return sample;
 }
@@ -140,14 +144,16 @@ function playSample(audioContext, audioBuffer, time) {
 }
 
 function init(){
+    debug.innerHTML = "init";
     // NOTE: THIS RELIES ON THE MONKEYPATCH LIBRARY BEING LOADED FROM
     // Http://cwilso.github.io/AudioContext-MonkeyPatch/AudioContextMonkeyPatch.js
     // TO WORK ON CURRENT CHROME!!  But this means our code can be properly
     // spec-compliant, and work on Chrome, Safari and Firefox.
     if ('webkitAudioContext' in window) {
-        console.log('ok');
+        debug.innerHTML = "webkit"
         audioContext = new webkitAudioContext();
     } else {
+        debug.innerHTML = "just context"
         audioContext = new AudioContext();
     }
     //audioContext = new AudioContext();

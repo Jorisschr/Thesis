@@ -2,7 +2,6 @@ var oReq = new XMLHttpRequest();
 oReq.addEventListener("load", processSheet);
 document.getElementById("selectedSheet").addEventListener("change", handleSheetSelect, false);
 
-
 var sheetCanvas = document.getElementById("osmdCanvas");
 var openSheetMusicDisplay = new opensheetmusicdisplay.OpenSheetMusicDisplay(sheetCanvas, { autoResize: true, drawingParameters: "compact", drawPartNames: false, disableCursor: false });
 var sheetLoaded = false;
@@ -66,6 +65,7 @@ function playPause() {
 
     if (playing) {
         playButton.innerHTML = '<i class="material-icons">pause</i>';
+        debug.innerHTML = "playpause";
         setTimeout("scrollVertical()", measureDurs[0] * 1000 * tempo);
   
     } else {
