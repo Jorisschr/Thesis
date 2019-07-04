@@ -90,7 +90,12 @@ function play() {
       var buffer = audioContext.createBuffer(1, 1, 22050);
       var node = audioContext.createBufferSource();
       node.buffer = buffer;
-      node.start(0);
+      if ('webkitAudioContext' in window) {
+          node.noteOn(0);
+      }
+        else {
+            node.start(0);
+        }
       unlocked = true;
     }
 
@@ -123,8 +128,14 @@ function playSample(audioContext, audioBuffer, time) {
     const sampleSource = audioContext.createBufferSource();
     sampleSource.buffer = audioBuffer;
     sampleSource.connect(audioContext.destination)
-    sampleSource.start(time);
-    sampleSource.stop(time + noteLength);
+    if ('webkitAudioContext' in window) {
+        sampleSource.noteOn(time);
+        sampleSource.noteOff(time + noteLength);
+    }
+    else {
+        sampleSource.start(time);
+        sampleSource.stop(time + noteLength);
+    }
     return sampleSource;
 }
 
