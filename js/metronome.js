@@ -115,7 +115,7 @@ function play() {
 }
 
 async function getFile(audioContext, filepath) {
-    debug.innerHTML = "get file"
+    //debug.innerHTML = "get file"
     const response = await fetch(filepath);
     const arrayBuffer = await response.arrayBuffer();
     const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
@@ -123,7 +123,7 @@ async function getFile(audioContext, filepath) {
   }
 
 async function setupSample(filePath) {
-    debug.innerHTML = "setup sample"
+    //debug.innerHTML = "setup sample"
     const sample = await getFile(audioContext, filePath);
     return sample;
 }
