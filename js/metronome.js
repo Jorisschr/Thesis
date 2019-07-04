@@ -115,10 +115,11 @@ function play() {
 }
 
 async function getFile(audioContext, filepath) {
-    //debug.innerHTML = "get file"
+    debug.innerHTML = "get file";
     const response = await fetch(filepath);
     const arrayBuffer = await response.arrayBuffer();
     const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+    debug.innerHTML = "file gotten";
     return audioBuffer;
   }
 
@@ -150,10 +151,10 @@ function init(){
     // TO WORK ON CURRENT CHROME!!  But this means our code can be properly
     // spec-compliant, and work on Chrome, Safari and Firefox.
     if ('webkitAudioContext' in window) {
-        debug.innerHTML = "webkit"
+        debug.innerHTML = "webkit";
         audioContext = new webkitAudioContext();
     } else {
-        debug.innerHTML = "just context"
+        debug.innerHTML = "just context";
         audioContext = new AudioContext();
     }
     //audioContext = new AudioContext();
