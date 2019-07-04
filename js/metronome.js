@@ -144,6 +144,30 @@ function playSample(audioContext, audioBuffer, time) {
     return sampleSource;
 }
 
+function getSoundSafari(filePath, beat) {
+    debug.innerHTML = "getting safari sounds";
+    var request = new XMLHttpRequest();
+    request.open('GET', filePath);
+    request.responseType = "arraybuffer";
+    request.addEventListener('load', beat, false);
+    request.send();
+}
+
+function setupFirstSafari(event) {
+    debug.innerHTML = "decoding first sound";
+    var request = event.target;
+    //firstSample = audioContext.createBuffer(request.response, false);
+    firstSample = audioContext.decodeAudioData(request.response);
+    debug.innerHTML = firstSample;
+}
+
+function setupOtherSafari(event) {
+    debug.innerHTML = "decoding other sound";
+    var request = event.target;
+    otherSample = audioContext.decodeAudioData(request.response);
+    debug.innerHTML = otherSample;
+}
+
 function init(){
     debug.innerHTML = "init";
     // NOTE: THIS RELIES ON THE MONKEYPATCH LIBRARY BEING LOADED FROM
@@ -153,13 +177,18 @@ function init(){
     if ('webkitAudioContext' in window) {
         debug.innerHTML = "webkit";
         audioContext = new webkitAudioContext();
+        getSoundSafari("/js/metronomeup.wav", setupFirstSafari);
+        getSoundSafari("/js/metronome.wav", setupOtherSafari);
     } else {
         debug.innerHTML = "just context";
-        audioContext = new AudioContext();
+        audioContext = new AudioContext();        
+        //getSoundSafari("/js/metronomeup.wav", setupFirstSafari);
+        //getSoundSafari("/js/metronome.wav", setupOtherSafari);
+        setupSample("/js/metronomeup.wav").then(sample => firstSample = sample);
+        setupSample("/js/metronome.wav").then(sample => otherSample = sample);
     }
     //audioContext = new AudioContext();
-    setupSample("/js/metronomeup.wav").then(sample => firstSample = sample);
-    setupSample("/js/metronome.wav").then(sample => otherSample = sample);
+
 
     timerWorker = new Worker("js/metronomeworker.js");
 
