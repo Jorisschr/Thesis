@@ -21,9 +21,21 @@ var timerWorker = null;     // The Web Worker used to fire timer messages
 
 var firstSample = null;
 var otherSample = null;
+//var nbBeats = null;
+var beatsIndex = 0;
+var sound = true;
+var muted = false;
+var muteButton = document.getElementById("muteButton");
+muteButton.addEventListener("click", mute, false);
 
-var debug = document.getElementById("debug");
-
+function mute() {
+    muted = !muted;
+    if (!muted) {
+        muteButton.innerHTML =  "<i class='material-icons'>volume_up</i>";
+    } else {
+        muteButton.innerHTML =  "<i class='material-icons'>volume_mute</i>";
+    }
+}
 // First, let's shim the requestAnimationFrame API, with a setTimeout fallback
 /*window.requestAnimFrame = (function(){
     return  window.requestAnimationFrame ||
@@ -44,8 +56,10 @@ function nextNote() {
 
     current16thNote++;    // Advance the beat number, wrap to zero
     //TODO number of beats per measure afleiden
-    if (current16thNote == 4) {
+    if (current16thNote == nbBeats[beatsIndex]) {
         current16thNote = 0;
+        beatsIndex++;
+        //console.log("Measure: " + beatsIndex);
     }
 }
 
@@ -71,10 +85,13 @@ function scheduleNote( beatNumber, time ) {
     osc.start( time );
     osc.stop( time + noteLength );*/
 
-    if (beatNumber % 4 === 0)
+    if (beatNumber % nbBeats[beatsIndex] === 0)
         playSample(audioContext, firstSample, time);
-    else
+    else if (beatsIndex >= nbBeats.length) {
+        return;
+    } else {
         playSample(audioContext, otherSample, time);
+    }
 }
 
 function scheduler() {
@@ -87,44 +104,43 @@ function scheduler() {
 }
 
 function play() {
-    if (!unlocked) {
-      // play silent buffer to unlock the audio
-      var buffer = audioContext.createBuffer(1, 1, 22050);
-      var node = audioContext.createBufferSource();
-      node.buffer = buffer;
-      if ('webkitAudioContext' in window) {
-          node.noteOn(0);
-      }
-        else {
-            node.start(0);
-        }
-      unlocked = true;
-    }
-
-    isPlaying = !isPlaying;
-
-    if (isPlaying) { // start playing
-        current16thNote = 0;
-        nextNoteTime = audioContext.currentTime;
-        timerWorker.postMessage("start");
-        return "stop";
-    } else {
-        timerWorker.postMessage("stop");
-        return "play";
+    if (sound) {
+        if (!unlocked) {
+            // play silent buffer to unlock the audio
+            var buffer = audioContext.createBuffer(1, 1, 22050);
+            var node = audioContext.createBufferSource();
+            node.buffer = buffer;
+            if ('webkitAudioContext' in window) {
+                node.noteOn(0);
+            }
+              else {
+                  node.start(0);
+              }
+            unlocked = true;
+          }
+      
+          isPlaying = !isPlaying;
+      
+          if (isPlaying) { // start playing
+              current16thNote = 0;
+              nextNoteTime = audioContext.currentTime;
+              timerWorker.postMessage("start");
+              return "stop";
+          } else {
+              timerWorker.postMessage("stop");
+              return "play";
+          }
     }
 }
 
 async function getFile(audioContext, filepath) {
-    debug.innerHTML = "get file";
     const response = await fetch(filepath);
     const arrayBuffer = await response.arrayBuffer();
     const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-    debug.innerHTML = "file gotten";
     return audioBuffer;
   }
 
 async function setupSample(filePath) {
-    //debug.innerHTML = "setup sample"
     const sample = await getFile(audioContext, filePath);
     return sample;
 }
@@ -137,7 +153,7 @@ function playSample(audioContext, audioBuffer, time) {
         sampleSource.noteOn(time);
         sampleSource.noteOff(time + noteLength);
     }
-    else {
+    else if (!muted) {
         sampleSource.start(time);
         sampleSource.stop(time + noteLength);
     }
@@ -145,7 +161,6 @@ function playSample(audioContext, audioBuffer, time) {
 }
 
 function getSoundSafari(filePath, beat) {
-    debug.innerHTML = "getting safari sounds";
     var request = new XMLHttpRequest();
     request.open('GET', filePath);
     request.responseType = "arraybuffer";
@@ -154,33 +169,30 @@ function getSoundSafari(filePath, beat) {
 }
 
 function setupFirstSafari(event) {
-    debug.innerHTML = "decoding first sound";
     var request = event.target;
     //firstSample = audioContext.createBuffer(request.response, false);
     firstSample = audioContext.decodeAudioData(request.response);
-    debug.innerHTML = firstSample;
 }
 
 function setupOtherSafari(event) {
-    debug.innerHTML = "decoding other sound";
     var request = event.target;
     otherSample = audioContext.decodeAudioData(request.response);
-    debug.innerHTML = otherSample;
 }
 
 function init(){
-    debug.innerHTML = "init";
     // NOTE: THIS RELIES ON THE MONKEYPATCH LIBRARY BEING LOADED FROM
     // Http://cwilso.github.io/AudioContext-MonkeyPatch/AudioContextMonkeyPatch.js
     // TO WORK ON CURRENT CHROME!!  But this means our code can be properly
     // spec-compliant, and work on Chrome, Safari and Firefox.
     if ('webkitAudioContext' in window) {
-        debug.innerHTML = "webkit";
-        audioContext = new webkitAudioContext();
+        sound = false;
+        muteButton.innerText = "";
+        /*audioContext = new webkitAudioContext();
         getSoundSafari("/js/metronomeup.wav", setupFirstSafari);
-        getSoundSafari("/js/metronome.wav", setupOtherSafari);
+        getSoundSafari("/js/metronome.wav", setupOtherSafari);*/
+        //TODO terug aanzetten voor efficiency evt.
+        return;
     } else {
-        debug.innerHTML = "just context";
         audioContext = new AudioContext();        
         //getSoundSafari("/js/metronomeup.wav", setupFirstSafari);
         //getSoundSafari("/js/metronome.wav", setupOtherSafari);

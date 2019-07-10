@@ -36,20 +36,24 @@
             </a>
           </li>
           <li><a id="backButton"><i class="material-icons">arrow_upward</i></a></li>
-          <li><a id="playButton" onclick="this.innerText = play();"><i class="material-icons">play_arrow</i></a></li>
+          <li><a id="playButton"><i class="material-icons">play_arrow</i></a></li>
+          <!--onclick="this.innerText = play();"-->
           <li>
               <div class="input-field">
                   <i class="material-icons prefix">music_note</i>
-                  <input id="tempo" type="number" min="40" max="208" value="92" onInput="speed = event.target.value; document.getElementById('showSpeed').innerText=tempo;">
+                  <input id="tempo" type="number" min="40" max="208" value="92" onInput="speed = event.target.value;">
+                  <!--document.getElementById('showSpeed').innerText=tempo;-->
               </div>
           </li>
-          <li id='debug'>lol</li>
+          <li><a id="muteButton"><i class="material-icons">volume_up</i></a></li>
         </ul>
     </nav>
   </div>
             
   <div class="sheet-div" id="osmdCanvas"></div>
-
+  <audio id=metronomeup src="/js/metronomeup.wav"></audio>
+  <audio id=metronome src="/js/metronome.wav"></audio>
+  
   <script
   src="https://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="

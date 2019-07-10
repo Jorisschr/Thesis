@@ -4,8 +4,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta 
      name='viewport' 
-     content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' 
-/>
+     content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'
+     />
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
   <link rel="shortcut icon" type="image/svg" href="https://img.icons8.com/cotton/16/56029/piano.png">
@@ -35,20 +35,25 @@
               </select>
             </a>
           </li>
-
-          <li><a class="waves-effect waves-light btn-floating" id="backButton"><i class="material-icons">arrow_back</i></a></li>
-          <li><a class="waves-effect waves-light btn-floating" id="playButton"><i class="material-icons">play_arrow</i></a></li>
+          <li><a id="backButton"><i class="material-icons">arrow_back</i></a></li>
+          <li><a id="playButton"><i class="material-icons">play_arrow</i></a></li>
+          <!--onclick="this.innerText = play();"-->
           <li>
-            <p class="range-field">
-              <input type="range" id="tempo" min="40" max="208" />
-            </p>
+              <div class="input-field">
+                  <i class="material-icons prefix">music_note</i>
+                  <input id="tempo" type="number" min="40" max="208" value="92" onInput="speed = event.target.value;">
+                  <!--document.getElementById('showSpeed').innerText=tempo;-->
+              </div>
           </li>
+          <li><a id="muteButton"><i class="material-icons">volume_up</i></a></li>
         </ul>
     </nav>
   </div>
-
+            
   <div class="sheet-div" id="osmdCanvas"></div>
-
+  <audio id=metronomeup src="/js/metronomeup.wav"></audio>
+  <audio id=metronome src="/js/metronome.wav"></audio>
+  
   <script
   src="https://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -57,10 +62,15 @@
   <script>
     $(document).ready(function() {
       $('select').formSelect();
-      $('.sidenav').sidenav();
+      $('.sidenav').sidenav();   
+      $('.dropdown-trigger').dropdown();
     });
   </script>
   <script src="js/opensheetmusicdisplay.min.js"></script>
+  <!--script src="//cwilso.github.io/AudioContext-MonkeyPatch/AudioContextMonkeyPatch.js"></script-->
+  <script src="js/metronome.js"></script>
   <script src="js/horizontalScroll.js"></script>
+
+
 </body>
 </html>
