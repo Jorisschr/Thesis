@@ -23,9 +23,9 @@
     <nav class="nav-wrapper grey darken-3">
         <ul>
           <li>
-            <a class="input-field">
+            <a class="input-field selectfield">
               <select id="selectedSheet">
-                <option value="" disabled selected>Select a musical piece</option>
+                <option value="" disabled selected>Select a piece of music</option>
                 <option value="../sheets/J_S_Bach_Menuet_in_G_Moll.musicxml">J.S. Bach Menuet in G Moll</option>
                 <option value="../sheets/Saltarello_sample.musicxml">Saltarello Sample</option>
                 <option value="../sheets/Prelude_C_Major_-_Bach.musicxml">Bach Prelude C Major</option>
@@ -35,17 +35,17 @@
               </select>
             </a>
           </li>
-          <li><a id="backButton"><i class="material-icons">arrow_back</i></a></li>
-          <li><a id="playButton"><i class="material-icons">play_arrow</i></a></li>
-          <!--onclick="this.innerText = play();"-->
+          <li><a class="waves-effect waves-light btn-floating teal" id="backButton"><i class="material-icons">arrow_back</i></a></li>
+          <li><a class="waves-effect waves-light btn-floating teal" id="playButton"><i class="material-icons">play_arrow</i></a></li>
+          <li class="teal-text">
+            BPM &nbsp;&nbsp;
+          </li>
           <li>
-              <div class="input-field">
-                  <i class="material-icons prefix">music_note</i>
-                  <input id="tempo" type="number" min="40" max="208" value="92" onInput="speed = event.target.value;">
-                  <!--document.getElementById('showSpeed').innerText=tempo;-->
+              <div class="input-field bpmfield">
+                  <input class="teal-text" id="tempo" type="number" min="40" max="208" value="92" onInput="speed = event.target.value;">
               </div>
           </li>
-          <li><a id="muteButton"><i class="material-icons">volume_up</i></a></li>
+          <li><a class="waves-effect waves-light btn-floating teal" id="muteButton"><i class="material-icons">volume_up</i></a></li>
         </ul>
     </nav>
   </div>

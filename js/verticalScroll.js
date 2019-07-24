@@ -1,13 +1,13 @@
-var oReq = new XMLHttpRequest();
+/*var oReq = new XMLHttpRequest();
 oReq.addEventListener("load", processSheet);
-document.getElementById("selectedSheet").addEventListener("change", handleSheetSelect, false);
+document.getElementById("selectedSheet").addEventListener("change", handleSheetSelect, false);*/
 
-var sheetCanvas = document.getElementById("osmdCanvas");
+/*var sheetCanvas = document.getElementById("osmdCanvas");
 var openSheetMusicDisplay = new opensheetmusicdisplay.OpenSheetMusicDisplay(sheetCanvas, { autoResize: true, drawingParameters: "compact", drawPartNames: false, disableCursor: false });
-var sheetLoaded = false;
-var scrollTimer = null;
+var sheetLoaded = false;*/
+//var scrollTimer = null;
 
-function processSheet() {
+/*function processSheet() {
     var xmlDoc = toXML(this.responseText);
     initDocument(xmlDoc);
 
@@ -18,19 +18,21 @@ function processSheet() {
         setStaffBounds();
         toStart();
     });
-}
+}*/
 
-function toXML(responseText) {
+/*function toXML(responseText) {
     var parser = new DOMParser();
     return parser.parseFromString(responseText, "application/xml");
-}
+}*/
 
-function initDocument(doc) {
+
+
+/*function initDocument(doc) {
     var measures = doc.getElementsByTagName("measure");
     extractMeasureData(measures);
-}
+}*/
 
-function extractMeasureData(measures) {
+/*function extractMeasureData(measures) {
     measureDurs = [];
     nbBeats = [];
 
@@ -53,14 +55,14 @@ function extractMeasureData(measures) {
             nbBeats.push(nbBeats[i-1])
         }
     }
-}
+}*/
 
-function handleSheetSelect() {
+/*function handleSheetSelect() {
     oReq.open("GET", document.getElementById("selectedSheet").value);
     oReq.send();
-}
+}*/
 
-var playing = false;
+/*var playing = false;
 var playButton = document.getElementById("playButton");
 playButton.addEventListener("click", playPause, false);
 
@@ -69,7 +71,7 @@ var tempoSlider = document.getElementById("tempo");
 tempoSlider.value = 92;
 tempoSlider.addEventListener("change", setTempo, false);
 
-setTempo();
+setTempo();*/
 
 function playPause() {
     playing = !playing;
@@ -87,9 +89,9 @@ function playPause() {
     }
 }
 
-function setTempo() {
+/*function setTempo() {
     tempo = 4 * 60 / tempoSlider.value;
-}
+}*/
 
 var staffBounds = [];
 var lastMeasOnStaff = [];

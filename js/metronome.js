@@ -36,17 +36,6 @@ function mute() {
         muteButton.innerHTML =  "<i class='material-icons'>volume_mute</i>";
     }
 }
-// First, let's shim the requestAnimationFrame API, with a setTimeout fallback
-/*window.requestAnimFrame = (function(){
-    return  window.requestAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
-    window.mozRequestAnimationFrame ||
-    window.oRequestAnimationFrame ||
-    window.msRequestAnimationFrame ||
-    function( callback ){
-        window.setTimeout(callback, 1000 / 60);
-    };
-})();*/
 
 function nextNote() {
     // Advance current note and time by a 16th note...
@@ -55,35 +44,15 @@ function nextNote() {
     nextNoteTime += secondsPerBeat;    // Add beat length to last beat time
 
     current16thNote++;    // Advance the beat number, wrap to zero
-    //TODO number of beats per measure afleiden
     if (current16thNote == nbBeats[beatsIndex]) {
         current16thNote = 0;
         beatsIndex++;
-        //console.log("Measure: " + beatsIndex);
     }
 }
 
 function scheduleNote( beatNumber, time ) {
     // push the note on the queue, even if we're not playing.
     notesInQueue.push( { note: beatNumber, time: time } );
-
-    /*if ( (noteResolution==1) && (beatNumber%2))
-        return; // we're not playing non-8th 16th notes
-    if ( (noteResolution==2) && (beatNumber%4))
-        return; // we're not playing non-quarter 8th notes
-
-    // create an oscillator
-    var osc = audioContext.createOscillator();
-    osc.connect( audioContext.destination );
-    if (beatNumber % 16 === 0)    // beat 0 == high pitch
-        osc.frequency.value = 880.0;
-    else if (beatNumber % 4 === 0 )    // quarter notes = medium pitch
-        osc.frequency.value = 440.0;
-    else                        // other 16th notes = low pitch
-        osc.frequency.value = 220.0;
-
-    osc.start( time );
-    osc.stop( time + noteLength );*/
 
     if (beatNumber % nbBeats[beatsIndex] === 0)
         playSample(audioContext, firstSample, time);
@@ -170,7 +139,6 @@ function getSoundSafari(filePath, beat) {
 
 function setupFirstSafari(event) {
     var request = event.target;
-    //firstSample = audioContext.createBuffer(request.response, false);
     firstSample = audioContext.decodeAudioData(request.response);
 }
 
@@ -187,20 +155,12 @@ function init(){
     if ('webkitAudioContext' in window) {
         sound = false;
         muteButton.innerText = "";
-        /*audioContext = new webkitAudioContext();
-        getSoundSafari("/js/metronomeup.wav", setupFirstSafari);
-        getSoundSafari("/js/metronome.wav", setupOtherSafari);*/
-        //TODO terug aanzetten voor efficiency evt.
         return;
     } else {
         audioContext = new AudioContext();        
-        //getSoundSafari("/js/metronomeup.wav", setupFirstSafari);
-        //getSoundSafari("/js/metronome.wav", setupOtherSafari);
         setupSample("/js/metronomeup.wav").then(sample => firstSample = sample);
         setupSample("/js/metronome.wav").then(sample => otherSample = sample);
     }
-    //audioContext = new AudioContext();
-
 
     timerWorker = new Worker("js/metronomeworker.js");
 
@@ -208,8 +168,6 @@ function init(){
         if (e.data == "tick") {
             scheduler();
         }
-        //else
-            //console.log("message: " + e.data);
     };
     timerWorker.postMessage({"interval":lookahead});
 }

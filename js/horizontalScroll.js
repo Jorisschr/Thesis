@@ -1,14 +1,15 @@
-var oReq = new XMLHttpRequest();
+/*var oReq = new XMLHttpRequest();
 oReq.addEventListener("load", processSheet);
-document.getElementById("selectedSheet").addEventListener("change", handleSheetSelect, false);
+document.getElementById("selectedSheet").addEventListener("change", handleSheetSelect, false);*/
 
-var sheetCanvas = document.getElementById("osmdCanvas");
+/*var sheetCanvas = document.getElementById("osmdCanvas");
 var openSheetMusicDisplay = new opensheetmusicdisplay.OpenSheetMusicDisplay(sheetCanvas, { autoResize: true, drawingParameters: "compact", drawPartNames: false, disableCursor: false });
-var sheetLoaded = false;
+var sheetLoaded = false;*/
 var sheetWidth = 0;
+//
 var scrollTimer = null;
 
-function processSheet() {
+/*function processSheet() {
     var xmlDoc = toXML(this.responseText);
     initDocument(xmlDoc);
 
@@ -19,9 +20,9 @@ function processSheet() {
         sheetLoaded = true;
         toStart();
     });
-}
+}*/
 
-function toXML(responseText) {
+/*function toXML(responseText) {
     var parser = new DOMParser();
     return parser.parseFromString(responseText, "application/xml");
 }
@@ -62,15 +63,14 @@ function extractMeasureData(measures) {
 
 function setCanvasWidth() {
     sheetCanvas.style.width = sheetWidth;
-}
+}*/
 
-function handleSheetSelect() {
+/*function handleSheetSelect() {
     oReq.open("GET", document.getElementById("selectedSheet").value);
     oReq.send();
-}
+}*/
 
-var playing = false;
-var scrolled = 0;
+/*var playing = false;
 var playButton = document.getElementById("playButton");
 playButton.addEventListener("click", playPause, false);
 
@@ -79,7 +79,7 @@ var tempoSlider = document.getElementById("tempo");
 tempoSlider.value = 92;
 tempoSlider.addEventListener("change", setTempo, false);
 
-setTempo();
+setTempo();*/
 
 function playPause() {
     playing = !playing;
@@ -106,10 +106,10 @@ function setMeasureBounds() {
 }
 
 var curIndex = 0;
-var curLowBound = 0;
-var curUppBound = 0;
-var curIncrement = 0;
-var frameDelay = 15;
+//var curLowBound = 0;
+//var curUppBound = 0;
+//var curIncrement = 0;
+//var frameDelay = 15;
 
 /*function pageScroll() {
     if (sheetCanvas.clientWidth - window.innerWidth <= window.scrollX) {
@@ -169,9 +169,9 @@ function setTempo() {
     tempo = 4 * 60 / tempoSlider.value;
 }
 
-var staffBounds = [];
+/*var staffBounds = [];
 var lastMeasOnStaff = [];
-var curStaff = 0;
+var curStaff = 0;*/
 
 var startButton = document.getElementById("backButton");
 startButton.addEventListener("click", toStart, false);

@@ -20,39 +20,40 @@
 </head>
 <body>
   <div class="navbar-fixed">
-    <nav class="nav-wrapper grey darken-3">
+    <nav>
+      <div class="nav-wrapper grey darken-3">
         <ul>
           <li>
-            <a class="input-field">
+            <a class="input-field selectfield">
               <select id="selectedSheet">
-                <option value="" disabled selected>Select a musical piece</option>
-                <option value="../sheets/J_S_Bach_Menuet_in_G_Moll.musicxml">J.S. Bach Menuet in G Moll</option>
-                <option value="../sheets/Saltarello_sample.musicxml">Saltarello Sample</option>
-                <option value="../sheets/Prelude_C_Major_-_Bach.musicxml">Bach Prelude C Major</option>
+                <option value="" disabled selected>Select a piece of music</option>
+                <option value="../sheets/J_S_Bach_Menuet_in_G_Moll.musicxml">Menuet in G Moll - J.S. Bach</option>
+                <option value="../sheets/Prelude_C_Major_-_Bach.musicxml">Prelude C Major - J.S. Bach</option>
                 <option value="../sheets/Mary_had_a_little_lamb.musicxml">Mary had a little lamb</option>
-                <option value="../sheets/long_long_ago.musicxml">long long ago</option>
+                <option value="../sheets/long_long_ago.musicxml">Long long ago</option>
                 <option value="../sheets/On_the_river.musicxml">On the river</option>
+                <option value="../sheets/Game_of_Thrones_Easy_piano.musicxml">Game of thrones theme - R. Djawadi</option>
+                <option value="../sheets/LA_DISPUTE_de_yann_tiersen.musicxml">La dispute - Y. Tiersen</option>
+                <option value="../sheets/To_a_Wild_Rose.musicxml">To a wild rose - E. MacDowell</option>
               </select>
             </a>
           </li>
-          <li><a id="backButton"><i class="material-icons">arrow_upward</i></a></li>
-          <li><a id="playButton"><i class="material-icons">play_arrow</i></a></li>
-          <!--onclick="this.innerText = play();"-->
+          <li><a class="waves-effect waves-light btn-floating teal" id="backButton"><i class="material-icons">arrow_upward</i></a></li>
+          <li><a class="waves-effect waves-light btn-floating teal" id="playButton"><i class="material-icons">play_arrow</i></a></li>
+          <li><a class="waves-effect waves-light btn-floating teal" id="muteButton"><i class="material-icons">volume_up</i></a></li>
+          <li class="teal-text">BPM</li>
           <li>
-              <div class="input-field">
-                  <i class="material-icons prefix">music_note</i>
-                  <input id="tempo" type="number" min="40" max="208" value="92" onInput="speed = event.target.value;">
-                  <!--document.getElementById('showSpeed').innerText=tempo;-->
-              </div>
+            <div class="input-field bpmfield">
+              <input class="teal-text" id="tempo" type="number" min="40" max="208" value="92" onInput="speed = event.target.value;"></input>
+            </div>
           </li>
-          <li><a id="muteButton"><i class="material-icons">volume_up</i></a></li>
+          <li class="right"><a class="waves-effect waves-light btn" id="nextButton"><i class="material-icons right">navigate_next</i>Next</a></li>
+          <li class="white-text right" id="interface">INTERFACE: 1</li>
         </ul>
-    </nav>
+      </div>
   </div>
-            
+  
   <div class="sheet-div" id="osmdCanvas"></div>
-  <audio id=metronomeup src="/js/metronomeup.wav"></audio>
-  <audio id=metronome src="/js/metronome.wav"></audio>
   
   <script
   src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -61,15 +62,13 @@
   <script src="js/materialize.min.js"></script>
   <script>
     $(document).ready(function() {
-      $('select').formSelect();
-      $('.sidenav').sidenav();   
+      $('select').formSelect();  
       $('.dropdown-trigger').dropdown();
     });
   </script>
   <script src="js/opensheetmusicdisplay.min.js"></script>
-  <!--script src="//cwilso.github.io/AudioContext-MonkeyPatch/AudioContextMonkeyPatch.js"></script-->
   <script src="js/metronome.js"></script>
-  <script src="js/verticalScroll.js"></script>
+  <script src="js/scrollRandomizer.js"></script>
 
 
 </body>

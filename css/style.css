@@ -1,3 +1,27 @@
 .sheet-div {
-    padding-top: 50px;
+    margin-top: 5%;
+}
+
+.input-field [type=text] {
+    color: #009688;
+    font-weight: bold;
+}
+
+.selectfield {
+    width: 250px;
+}
+
+.bpmfield {
+    width: 45px;
+}
+
+.teal-text {
+    margin-left: 10px;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.btn {
+    margin-left: 0px;
+    margin-right: 0px;
 }
