@@ -47,6 +47,9 @@ function testNextInterface() {
     if (played) {
         played = !played;
         if (toBeTested.length) {
+            if (currentInterface) {
+                alert("Please fill in the next page of the questionnaire. \n This was interface " + interfaceToNum() + ".");
+            }
             currentInterface = toBeTested.splice(Math.floor(Math.random()*toBeTested.length), 1)[0];
             interfaceToNum();
             if (!toBeTested.length) {
@@ -60,17 +63,20 @@ function testNextInterface() {
 }
 
 function interfaceToNum() {
+    var num = 0;
     if (currentInterface == "Vertical") {
-        interfaceText.innerHTML = "INTERFACE: 1";
+        num = 1;
     } else if (currentInterface == "VerticalWait") {
-        interfaceText.innerHTML = "INTERFACE: 2";
+        num = 2;
     } else if (currentInterface == "Horizontal") {
-        interfaceText.innerHTML = "INTERFACE: 3";
+        num = 3;
     } else if (currentInterface == "HorizontalWait") {
-        interfaceText.innerHTML = "INTERFACE: 4";
+        num = 4;
     } else if (currentInterface == "MultiHorizontal") {
-        interfaceText.innerHTML = "INTERFACE: 5";
+        num = 5;
     }
+    interfaceText.innerHTML = "INTERFACE: " + num;
+    return num;
 }
 
 function loadInterface() {
@@ -169,6 +175,10 @@ function toStart() {
 
 function playPause() {
     playing = !playing;
+    if (!sheetLoaded) {
+        alert("Please select a piece first!")
+        return;
+    }
 
     if (playing) {
         play();
