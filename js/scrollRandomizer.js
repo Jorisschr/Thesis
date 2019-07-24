@@ -52,8 +52,7 @@ function testNextInterface() {
             if (!toBeTested.length) {
                 nextButton.outerHTML = '';
             }
-        } 
-        console.log(currentInterface);
+        }
         loadInterface();
     } else {
         alert("Please test this interface first!");
@@ -188,7 +187,6 @@ function playPause() {
         } if (currentInterface == "HorizontalWait") {
             calcIndex();
             nbMeasures = calcHorWaitMeasures();
-            console.log(nbMeasures);
             scrollTimer = setTimeout("scrollSmooth()", measureDurs[curIndex] * 1000 * tempo * (1 + nbMeasures));   
         } if (currentInterface == "MultiHorizontal") {
             calcIndex();
@@ -266,7 +264,6 @@ function setMeasureBounds() {
     for (i = 0; i < measureDurs.length; i++) {
         measureBounds.push(parseInt(openSheetMusicDisplay.GraphicSheet.MeasureList[i][0].stave.end_x));
     }
-    console.log(measureBounds);
 }
 
 function fixSheetWidth() {
@@ -277,7 +274,6 @@ function fixSheetWidth() {
         openSheetMusicDisplay.render();
         setMeasureBounds();
     }
-    console.log(indexOfMaxValue);
 }
 
 function scrollSmooth() {
@@ -298,12 +294,9 @@ function scrollMultiSmooth() {
         beatsIndex--;
     } else {
         nbMeasures = calcMultiHorMeasures();
-        console.log(measureDurs);
-        console.log(curIndex);
         var duration = measureDurs.slice(curIndex, curIndex + nbMeasures).reduce((a,b) => a + b, 0)
         curIndex += nbMeasures;
         scrollDuration = duration;
-        console.log("duration: " + duration);
         if (nbMeasures > 1) {
             scrollDuration = duration/2;
         }
@@ -342,7 +335,6 @@ function calcMultiHorMeasures() {
         index++;
     }
     nbMeasures = Math.floor((index - curIndex)/2);
-    console.log(nbMeasures);
     if (nbMeasures) {
         return nbMeasures;
     }
@@ -351,7 +343,6 @@ function calcMultiHorMeasures() {
 
 function calcVerWaitMeasures() {
     var nbMeasures = Math.floor(measureDurs.length / staffBounds.length / 2);
-    console.log(nbMeasures);
     if (nbMeasures) {
         return nbMeasures;
     }
