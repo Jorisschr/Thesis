@@ -7,8 +7,12 @@
     font-weight: bold;
 }
 
-.selectfield {
+#selSheet {
     width: 250px;
+}
+
+#choButton {
+    width: 150px;
 }
 
 .bpmfield {
