@@ -53,7 +53,7 @@ function testNextInterface() {
             currentInterface = toBeTested.splice(Math.floor(Math.random()*toBeTested.length), 1)[0];
             interfaceToNum();
             if (!toBeTested.length) {
-                nextButton.outerHTML = '';
+                nextButton.parentNode.removeChild(nextButton);
             }
         }
         loadInterface();

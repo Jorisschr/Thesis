@@ -154,7 +154,7 @@ function init(){
     // spec-compliant, and work on Chrome, Safari and Firefox.
     if ('webkitAudioContext' in window) {
         sound = false;
-        muteButton.innerText = "";
+        muteButton.parentNode.removeChild(muteButton);
         return;
     } else {
         audioContext = new AudioContext();        
