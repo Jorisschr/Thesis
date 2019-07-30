@@ -83,6 +83,7 @@ function loadInterface() {
     setCanvasWidth();
     if (sheetLoaded) {
         openSheetMusicDisplay.render();
+        setStaffBounds();
         setMeasureBounds();
         fixSheetWidth();
     }
@@ -224,6 +225,7 @@ function setStaffBounds() {
             lastMeasOnStaff.push(i);
         }
     }
+    console.log(staffBounds);
 }
 
 function scrollVertical() {

@@ -92,6 +92,7 @@ function loadInterface() {
     setCanvasWidth();
     if (sheetLoaded) {
         openSheetMusicDisplay.render();
+        setStaffBounds();
         setMeasureBounds();
         fixSheetWidth();
     }
